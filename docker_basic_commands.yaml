@@ -1,0 +1,25 @@
+docker login infydp.ad.infosys.com:8082
+
+docker pull infydp.ad.infosys.com:8082/hello-world
+
+docker image ls
+
+docker container ls -a
+
+docker container run --publish 80:80  infydp.ad.infosys.com:8082/nginx
+
+docker container run --publish 80:80  --detach infydp.ad.infosys.com:8082/nginx
+
+docker container run --publish 8082:80  --d --name simple-webapp infydp.ad.infosys.com:8082/nginx
+docker run --name mongodb --publish 27017:27017 -d infydp.ad.infosys.com:8082/mongo
+
+docker container logs simple-webapp
+
+docker container top simple-webapp
+docker ps
+
+docker container stop simple-webapp
+docker container start simple-webapp
+
+docker container rm simple-webapp
+

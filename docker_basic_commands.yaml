@@ -5,6 +5,7 @@ docker pull infydp.ad.infosys.com:8082/hello-world
 docker image ls
 
 docker container ls -a
+docker ps
 
 docker container run --publish 80:80  infydp.ad.infosys.com:8082/nginx
 
@@ -16,10 +17,29 @@ docker run --name mongodb --publish 27017:27017 -d infydp.ad.infosys.com:8082/mo
 docker container logs simple-webapp
 
 docker container top simple-webapp
-docker ps
 
 docker container stop simple-webapp
 docker container start simple-webapp
 
 docker container rm simple-webapp
 
+docker container run -d --name http_webserver -p 8080:80 infydp.ad.infosys.com:8082/httpd
+curl http://localhost:8080
+docker container run -d --name proxy_nginx -p 80:80 infydp.ad.infosys.com:8082/nginx
+curl http://localhost:80
+docker container run -p 3306:3306 -d --name mysqldb -e MYSQL_RANDOM_ROOT_PASSWORD=yes infydp.ad.infosys.com:8082/mysql
+GENERATED ROOT PASSWORD:Too5labahhe2beevah5eR7beiwiemaNu
+
+docker container top proxy_nginx
+docker container inspect mysqldb
+docker container stats
+
+docker container run -it --name ngproxy infydp.ad.infosys.com:8082/nginx bash
+docker container start -ai ngproxy
+docker container run -it --name ubuntu infydp.ad.infosys.com:8082/ubuntu
+docker container run -it --name alpine infydp.ad.infosys.com:8082/alpine sh
+docker container exec -it mysqldb bash
+
+docker container run -p 80:80 --name webhost -d infydp.ad.infosys.com:8082/nginx
+docker container port webhost
+docker container inspect webhost --format '{{.NetworkSettings.IPAddress}}'

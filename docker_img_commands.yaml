@@ -1,0 +1,10 @@
+docker history infydp.ad.infosys.com:8082/mysql
+docker history infydp.ad.infosys.com:8082/nginx:alpine
+docker history infydp.ad.infosys.com:8082/nginx
+docker image history infydp.ad.infosys.com:8082/busybox
+
+docker image inspect infydp.ad.infosys.com:8082/mysql
+
+docker image tag infydp.ad.infosys.com:8082/nginx:alpine infydp.ad.infosys.com:8082/murugan425/nginx:version1
+
+docker image ls

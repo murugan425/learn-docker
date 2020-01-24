@@ -1,30 +1,47 @@
 docker network ls
+
 docker network inspect bridge
+
 docker network create my_pvt_nw
+
 docker network inspect my_pvt_nw
-docker container run -d --name proxy_nginx -p 80:80 infydp.ad.infosys.com:8082/nginx
-docker container run -d --name pvt_proxy_nginx --network my_pvt_nw -p 8081:80 infydp.ad.infosys.com:8082/nginx
+
+docker container run -d --name proxy_nginx -p 80:80 nginx
+
+docker container run -d --name pvt_proxy_nginx --network my_pvt_nw -p 8081:80 nginx
 
 docker container inspect proxy_nginx --format '{{.NetworkSettings.IPAddress}}'
+
 docker container inspect proxy_nginx --format '{{.NetworkSettings.Networks.bridge.IPAddress}}'
+
 docker container inspect pvt_proxy_nginx --format '{{.NetworkSettings.Networks.my_pvt_nw.IPAddress}}'
 
 docker network connect a91e9c1e8926 6b27a4205995 (a91e9c1e8926 - networkid, 6b27a4205995 - containerid)
+
 docker network disconnect a91e9c1e8926 6b27a4205995
 
-docker container run -d --name pvt_nginx1 --network my_pvt_nw -p 8081:80 infydp.ad.infosys.com:8082/nginx:alpine
-docker container run -d --name pvt_nginx2 --network my_pvt_nw infydp.ad.infosys.com:8082/nginx:alpine
-docker container run -d --name pvt_mysqldb --network my_pvt_nw -e MYSQL_RANDOM_ROOT_PASSWORD=yes infydp.ad.infosys.com:8082/mysql
+docker container run -d --name pvt_nginx1 --network my_pvt_nw -p 8081:80 nginx:alpine
+
+docker container run -d --name pvt_nginx2 --network my_pvt_nw nginx:alpine
+
+docker container run -d --name pvt_mysqldb --network my_pvt_nw -e MYSQL_RANDOM_ROOT_PASSWORD=yes mysql
 
 docker container exec -it pvt_nginx1 ping pvt_nginx2
+
 docker container exec -it pvt_nginx2 ping pvt_nginx1
+
 docker container exec -it pvt_nginx1 ping pvt_mysqldb
+
 docker container exec -it pvt_nginx2 ping pvt_mysqldb
 
 docker network create stream_nw
-docker container run -d --net stream_nw --net-alias searchengine infydp.ad.infosys.com:8082/elasticsearch
-docker container run -d --net stream_nw --net-alias searchengine infydp.ad.infosys.com:8082/elasticsearch
-docker container run --rm --net stream_nw infydp.ad.infosys.com:8082/alpine nslookup searchengine
-docker container run --rm --net stream_nw infydp.ad.infosys.com:8082/centos curl -s searchengine:9200
 
-docker image tag infydp.ad.infosys.com:8082/nginx:alpine infydp.ad.infosys.com:8082/murugan425/nginx:version1
+docker container run -d --net stream_nw --net-alias searchengine elasticsearch
+
+docker container run -d --net stream_nw --net-alias searchengine elasticsearch
+
+docker container run --rm --net stream_nw alpine nslookup searchengine
+
+docker container run --rm --net stream_nw centos curl -s searchengine:9200
+
+docker image tag nginx:alpine murugan425/nginx:version1

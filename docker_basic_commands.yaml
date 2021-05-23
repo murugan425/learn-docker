@@ -52,6 +52,10 @@ docker container run -it --name ubuntu ubuntu
 
 docker container run -it --name alpine alpine sh
 
+docker container exec -it cent bash
+
+ocker container exec -it ubuntu bash
+
 docker container exec -it mysqldb bash
 
 docker container run -p 80:80 --name webhost -d nginx

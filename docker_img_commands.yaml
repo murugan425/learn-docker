@@ -8,6 +8,9 @@ docker image history busybox
 
 docker image inspect mysql
 
-docker image tag nginx:alpine murugan425/nginx:version1
+docker image tag nginx:alpine murugan425/nginx:testtag
 
 docker image ls
+
+docker image push murugan425/nginx:testtag
+

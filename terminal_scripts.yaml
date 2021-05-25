@@ -1,0 +1,13 @@
+ps aux | grep
+
+ls -a
+
+ls -al
+
+apt-get update 
+
+apt-get install curl 
+
+apt-get install -y procps <if 'ps aux' doesn't runs>
+
+ifconfig -en0

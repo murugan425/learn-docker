@@ -47,15 +47,20 @@ docker container run --rm --net stream_nw alpine nslookup searchengine
 
 docker container run --rm --net stream_nw centos curl -s searchengine:9200
 
-docker image tag nginx:alpine murugan425/nginx:version1
+docker container run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.5.2
 
-docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.5.2
+docker container run -d --net stream_nw --net-alias searchengine -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.5.2
 
-docker run -d --net stream_nw --net-alias searchengine -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.5.2
+docker container run -d --net stream_nw --net-alias searchengine -e "discovery.type=single-node" --name els1 elasticsearch:7.5.2
 
-docker run -d --net stream_nw --net-alias searchengine -e "discovery.type=single-node" --name els1 elasticsearch:7.5.2
-docker run -d --net stream_nw --net-alias searchengine -e "discovery.type=single-node" --name els2 elasticsearch:7.5.2
+docker container run -d --net stream_nw --net-alias searchengine -e "discovery.type=single-node" --name els2 elasticsearch:7.5.2
+
 docker container run --rm  --net stream_nw centos curl -s searchengine:9200
 
+docker container run -d --net sample-nw --net-alias els-search --name elssearch1 elasticsearch:2
 
+docker container run -d --net sample-nw --net-alias els-search --name elssearch2 elasticsearch:2
 
+docker container run -it --net sample-nw --name sample-cent centos
+
+curl els-search:9200

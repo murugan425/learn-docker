@@ -1,3 +1,5 @@
+docker image pull alpine
+
 docker history mysql
 
 docker history nginx:alpine
@@ -14,3 +16,8 @@ docker image ls
 
 docker image push murugan425/nginx:testtag
 
+docker image ls -aq
+
+docker image rm $(docker image ls -aq)
+
+docker image tag nginx:alpine murugan425/nginx:version1

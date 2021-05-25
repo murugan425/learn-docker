@@ -57,6 +57,10 @@ docker container run -d --net stream_nw --net-alias searchengine -e "discovery.t
 
 docker container run --rm  --net stream_nw centos curl -s searchengine:9200
 
+-----------------------------------------------------------------------------------------
+DOCKER CONTAINER ROUND ROBIN TEST COMMANDS 
+-----------------------------------------------------------------------------------------
+
 docker container run -d --net sample-nw --net-alias els-search --name elssearch1 elasticsearch:2
 
 docker container run -d --net sample-nw --net-alias els-search --name elssearch2 elasticsearch:2

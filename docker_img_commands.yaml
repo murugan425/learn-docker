@@ -21,3 +21,5 @@ docker image ls -aq
 docker image rm $(docker image ls -aq)
 
 docker image tag nginx:alpine murugan425/nginx:version1
+
+docker image build -t sampleimg1

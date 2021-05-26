@@ -10,4 +10,6 @@ apt-get install curl
 
 apt-get install -y procps <if 'ps aux' doesn't runs>
 
+yum update curl
+
 ifconfig -en0

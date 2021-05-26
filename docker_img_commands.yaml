@@ -22,4 +22,48 @@ docker image rm $(docker image ls -aq)
 
 docker image tag nginx:alpine murugan425/nginx:version1
 
-docker image build -t sampleimg1
+docker image prune
+docker image prune -a
+--- cleanup dangling images
+
+docker system prune
+---clean all images
+
+docker system df
+---to see space usage
+
+
+-----------------------------------------------------------------------------------------
+DOCKER IMAGE BUILD & PUSH TO HUB  
+-----------------------------------------------------------------------------------------
+docker image build -t sampleimg1 .
+
+docker image tag sampleimg1 murugan425/sampleimg1
+
+docker image push murugan425/sampleimg1
+
+docker container run -p 8081:80 -d --name sample-nginx-1 sampleimg1
+
+curl localhost:8081
+-----------------------------------------------------------------------------------------
+docker image build -t sampleimg2 .
+
+docker image tag sampleimg2 murugan425/sampleimg2
+
+docker image push murugan425/sampleimg2
+
+docker container run -p 8082:80 -d --name sample-nginx-2 sampleimg1
+
+curl localhost:8082/index.html
+-----------------------------------------------------------------------------------------
+docker image build -t sampleimg3 .
+
+docker image tag sampleimg3 murugan425/sampleimg3
+
+docker image push murugan425/sampleimg3
+
+docker container run -p 8083:3000 --name sample-node-1 sampleimg3
+
+curl localhost:8083
+-----------------------------------------------------------------------------------------
+

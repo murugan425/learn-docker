@@ -7,9 +7,10 @@ docker container run -d -p 3306:3306 --name sample-mysql -e MYSQL_ROOT_PASSWORD=
 docker container run -d --name sample-postgres -e POSTGRES_PASSWORD=murugan123 -v postgres:/var/lib/postgresql/data postgres:12.7
 
 docker container run -p 8082:80  -d --name sample-nginx \
-  -v $(pwd)/Repository/learn-docker/sample-docker-files/docker-2:/usr/share/nginx/html nginx
+  -v $(pwd)/Repository/learn-docker/sample-docker-files/docker-2-nginx:/usr/share/nginx/html nginx
 
-/Users/murugan/Repository/learn-docker/sample-docker-files/docker-2/Dockerfile
+docker run -p 8083:4000 -d --name sample-jekyll \
+  -v $(pwd)/Repository/learn-docker/sample-docker-files/docker-4-bindmount:/site bretfisher/jekyll-serve
 -----------------------------------------------------------------------------------------
 DOCKER COMMANDS BELOW FAILS - TODO
 -----------------------------------------------------------------------------------------

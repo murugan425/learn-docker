@@ -1,0 +1,26 @@
+docker volume ls
+
+docker container run -p 3306:3306 -d --name mysqldb -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -v mysql-db:/var/lib/mysql mysql
+
+docker container run -d -p 3306:3306 --name sample-mysql -e MYSQL_ROOT_PASSWORD=murugan123 -v $(pwd)/data/mysql:/var/lib/mysql mysql
+
+docker container run -d --name sample-postgres -e POSTGRES_PASSWORD=murugan123 -v postgres:/var/lib/postgresql/data postgres:12.7
+
+-----------------------------------------------------------------------------------------
+DOCKER COMMANDS BELOW FAILS - TODO
+-----------------------------------------------------------------------------------------
+
+docker container run -d \
+    --name sample-postgres \
+    -e POSTGRES_PASSWORD=murugan123 \
+    -v $(pwd)/data/postgres:/var/lib/postgresql/data \
+    postgres
+
+docker container run -d \
+    -p 3306:3306 \ 
+    --name sample-mysql \
+    -e MYSQL_ROOT_PASSWORD=murugan123 \
+    -v $(pwd)/data/mysql:/var/lib/mysql \
+    mysql
+
+

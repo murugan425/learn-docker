@@ -1,0 +1,33 @@
+#-----------------------------------------------------------------------------------------
+#DOCKER COMPOSE - To host drupal content mgmt server with a postgres as the db.
+#-----------------------------------------------------------------------------------------
+version: '3.8'
+
+services: 
+    drupal-server:
+        image: drupal:9.1
+        volumes:
+            - drupal-modules:/var/www/html/modules
+            - drupal-profiles:/var/www/html/profiles
+            - drupal-themes:/var/www/html/themes
+            - drupal-sites:/var/www/html/sites
+        ports: 
+            - 8083:80
+            - 8084:80
+        restart: always
+    postgres-db: #this is the hostname used for connection
+        image: postgres:13
+        environment:
+            POSTGRES_DB: drupal-db #this is the database name
+            POSTGRES_USER: murugan
+            POSTGRES_PASSWORD: murugan123
+        volumes:
+            - drupal-pgdata:/var/lib/postgresql/data 
+        restart: always
+
+volumes:
+    drupal-modules:
+    drupal-profiles:
+    drupal-themes:
+    drupal-sites:
+    drupal-pgdata:

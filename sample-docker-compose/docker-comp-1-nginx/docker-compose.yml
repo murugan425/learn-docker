@@ -1,8 +1,5 @@
-#docker run -p 8083:4000 -d --name sample-jekyll \
-#  -v $(pwd)/Repository/learn-docker/sample-docker-files/docker-4-bindmount:/site bretfisher/jekyll-serve
-
 #-----------------------------------------------------------------------------------------
-#DOCKER COMPOSE - FOR ABOVE DOCKER RUN SCRIPT
+#DOCKER COMPOSE - To host web server with a nginx reverse proxy in front of it.
 #-----------------------------------------------------------------------------------------
 version: '3.8'
 

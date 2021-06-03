@@ -1,0 +1,17 @@
+#-----------------------------------------------------------------------------------------
+#DOCKER COMPOSE - To host web server with a nginx reverse proxy in front of it.
+#-----------------------------------------------------------------------------------------
+version: '3.8'
+
+services: 
+    proxy-server:
+        build:
+            context: .
+            dockerfile: 'nginx.Dockerfile'
+        ports:
+            - 8085:80
+
+    web-server:
+        image: httpd
+        volumes:
+            - ./resume-html:/usr/local/apache2/htdocs/

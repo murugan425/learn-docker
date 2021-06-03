@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------------------
-#DOCKER COMPOSE - To host web server with a nginx reverse proxy in front of it.
+#DOCKER COMPOSE - To host web server with a custom nginx reverse proxy in front of it.
 #-----------------------------------------------------------------------------------------
 version: '3.8'
 

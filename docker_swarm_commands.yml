@@ -1,0 +1,43 @@
+-----------------------------------------------------------------------------------------
+DOCKER SWARM BASIC - COMMANDS
+-----------------------------------------------------------------------------------------
+docker swarm init
+
+-----------------------------------------------------------------------------------------
+To add a worker to this swarm, run the following command
+-----------------------------------------------------------------------------------------
+docker swarm join --token SWMTKN-1-4tc01xcvaj5qyh4ihegedzl2emzb7qjau7uf6hrtza63lh97ov-b2jknqlqkazi19eclm3y455iq 192.168.65.6:2377
+
+-----------------------------------------------------------------------------------------
+To add a manager to this swarm
+-----------------------------------------------------------------------------------------
+docker swarm join-token manager
+
+-----------------------------------------------------------------------------------------
+CREATE A SINGLE SERVICE AND SCALE IT UP
+-----------------------------------------------------------------------------------------
+docker service create --name sample-alp-service alpine ping 8.8.8.8
+
+docker service ls
+
+docker service ps sample-alp-service
+
+docker service update sample-alp-service --replicas 5
+
+docker container ls
+
+docker container rm -f sample-alp-service.5.v7lx9ydtepd4yjxo8boza1krk
+
+docker service ps sample-alp-service
+
+-----------------------------------------------------------------------------------------
+DOCKER MACHINE COMMANDS
+-----------------------------------------------------------------------------------------
+Create three node machines using docker-machine
+
+docker-machine create node1
+
+docker-machine create node2
+
+docker-machine create node3
+

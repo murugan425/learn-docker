@@ -1,5 +1,5 @@
 #batteries included but removable
-#default configurations cna be removed and changed if required
+#default configurations can be removed and changed if required
 ##dns naming
 docker network ls
 

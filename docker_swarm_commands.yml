@@ -31,13 +31,157 @@ docker container rm -f sample-alp-service.5.v7lx9ydtepd4yjxo8boza1krk
 docker service ps sample-alp-service
 
 -----------------------------------------------------------------------------------------
-DOCKER MACHINE COMMANDS
+DOCKER MACHINE COMMANDS - MULTIPLE NODES IN MULTIPLE VMS
 -----------------------------------------------------------------------------------------
-Create three node machines using docker-machine
-
+---Create three node machines using docker-machine
+-----------------------------------------------------------------------------------------
 docker-machine create node1
 
 docker-machine create node2
 
 docker-machine create node3
+
+---Access these node machines
+-----------------------------------------------------------------------------------------
+docker-machine ssh node1
+
+eval $(docker-machine env node1)
+
+docker-machine ls
+node1   -        virtualbox   Running   tcp://192.168.99.100:2376           v19.03.12
+node2   -        virtualbox   Running   tcp://192.168.99.101:2376           v19.03.12
+node3   -        virtualbox   Running   tcp://192.168.99.102:2376           v19.03.12
+
+---node1 - Initialize docker swarm
+docker swarm init --advertise-addr 192.168.99.100
+docker swarm join --token SWMTKN-1-1jtlheio9iyadw3hwi4k9auu7vsxuveaow6j63sfp47hexz8dd-64zvwhneqn0z78wyrszxoorf0 192.168.99.100:2377
+docker swarm join-token manager
+
+---node2
+docker swarm join --token SWMTKN-1-1jtlheio9iyadw3hwi4k9auu7vsxuveaow6j63sfp47hexz8dd-64zvwhneqn0z78wyrszxoorf0 192.168.99.100:2377
+--node2 will become a worker node in the above swarm.
+
+docker node ls
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+n27k9r2jglhs4xg8jnxhqlwey *   node1               Ready               Active              Leader              19.03.12
+js0mxkiehrpo9lpbe39ti24r5     node2               Ready               Active                                  19.03.12
+
+---node1
+docker node update --role manager node2
+--make the node2 as manager role, we have 1 leader and 1 manager node in our swarm
+
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+n27k9r2jglhs4xg8jnxhqlwey *   node1               Ready               Active              Leader              19.03.12
+js0mxkiehrpo9lpbe39ti24r5     node2               Ready               Active              Reachable           19.03.12
+
+---node1
+docker swarm join-token manager
+--To join the node3 as master node directly, get the new token
+ docker swarm join --token SWMTKN-1-1jtlheio9iyadw3hwi4k9auu7vsxuveaow6j63sfp47hexz8dd-21djwi4w8232nhil91fpbid5l 192.168.99.100:2377
+
+--node3
+docker swarm join --token SWMTKN-1-1jtlheio9iyadw3hwi4k9auu7vsxuveaow6j63sfp47hexz8dd-21djwi4w8232nhil91fpbid5l 192.168.99.100:2377
+
+docker node ls
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+n27k9r2jglhs4xg8jnxhqlwey *   node1               Ready               Active              Leader              19.03.12
+js0mxkiehrpo9lpbe39ti24r5     node2               Ready               Active              Reachable           19.03.12
+rl0oddv9l1kmryiv1c4n3icw9     node3               Ready               Active              Reachable           19.03.12
+
+---node1/2/3 - in any master node
+-----------------------------------------------------------------------------------------
+docker service create --name sample-alp-service --replicas 5  alpine ping 8.8.8.8
+
+docker service ls 
+ID                  NAME                 MODE                REPLICAS            IMAGE               PORTS
+paszysp23u1l        sample-alp-service   replicated          5/5                 alpine:latest
+
+docker@node1:~$ docker service ps sample-alp-service
+ID                  NAME                   IMAGE               NODE                DESIRED STATE       CURRENT STATE                ERROR               PORTS
+nywmq70d2ee1        sample-alp-service.1   alpine:latest       node2               Running             Running about a minute ago
+jn0spyerigdl        sample-alp-service.2   alpine:latest       node3               Running             Running about a minute ago
+uc1h472vkbw3        sample-alp-service.3   alpine:latest       node2               Running             Running about a minute ago
+m5csaq7p5dh2        sample-alp-service.4   alpine:latest       node3               Running             Running about a minute ago
+955c8pn9n5jg        sample-alp-service.5   alpine:latest       node1               Running             Running about a minute ago
+
+---1 task in node1, 2 tasks in node2 and 2 tasks in node3 were orchestrated/scheduled/running.
+-----------------------------------------------------------------------------------------
+docker@node1:~$ docker node ps
+ID                  NAME                   IMAGE               NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
+955c8pn9n5jg        sample-alp-service.5   alpine:latest       node1               Running             Running 4 minutes ago
+docker@node2:~$ docker node ps
+ID                  NAME                   IMAGE               NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
+nywmq70d2ee1        sample-alp-service.1   alpine:latest       node2               Running             Running 4 minutes ago
+uc1h472vkbw3        sample-alp-service.3   alpine:latest       node2               Running             Running 4 minutes ago
+docker@node3:~$ docker node ps
+ID                  NAME                   IMAGE               NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
+jn0spyerigdl        sample-alp-service.2   alpine:latest       node3               Running             Running 4 minutes ago
+m5csaq7p5dh2        sample-alp-service.4   alpine:latest       node3               Running             Running 4 minutes ago
+
+---If node1 is terminated then the corrsponding service running there is moved to node2/3 automatically.
+-----------------------------------------------------------------------------------------
+docker@node3:~$ docker service ls
+ID                  NAME                 MODE                REPLICAS            IMAGE               PORTS
+paszysp23u1l        sample-alp-service   replicated          5/5                 alpine:latest
+docker@node3:~$ docker service ps sample-alp-service
+ID                  NAME                       IMAGE               NODE                DESIRED STATE       CURRENT STATE            ERROR               PORTS
+nywmq70d2ee1        sample-alp-service.1       alpine:latest       node2               Running             Running 8 minutes ago
+jn0spyerigdl        sample-alp-service.2       alpine:latest       node3               Running             Running 8 minutes ago
+uc1h472vkbw3        sample-alp-service.3       alpine:latest       node2               Running             Running 8 minutes ago
+m5csaq7p5dh2        sample-alp-service.4       alpine:latest       node3               Running             Running 8 minutes ago
+lm90x7pnvn4y        sample-alp-service.5       alpine:latest       node2               Running             Running 17 seconds ago
+955c8pn9n5jg         \_ sample-alp-service.5   alpine:latest       node1               Shutdown            Running 8 minutes ago
+
+---If node2 is also terminated.,
+docker@node3:~$ docker service ps sample-alp-service
+Error response from daemon- rpc error- code = Unknown desc = The swarm does not have a leader. It's possible that too few managers are online. Make sure more than half of the managers are online.
+
+-----------------------------------------------------------------------------------------
+DOCKER MACHINE COMMANDS - EXAMPLE [DRUPAL - FrontEnd, POSTGRES - BackEnd, Private Network
+-----------------------------------------------------------------------------------------
+
+---1. Create a private network that needs to be used for this application.
+-----------------------------------------------------------------------------------------
+docker network create --driver overlay drupal-nw
+
+---2. Create a postgres service request and check if the postgres db container is started.
+-----------------------------------------------------------------------------------------
+docker service create -d --name sample-postgres --network drupal-nw -e POSTGRES_PASSWORD=murugan123 postgres
+
+docker@node1:~$ docker service ps sample-postgres
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
+udxpblc1oqg7        sample-postgres.1   postgres:latest     node2               Running             Running 4 minutes ago
+
+docker@node2:~$ docker container ls -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+bfee53ef3246        postgres:latest     "docker-entrypoint.s…"   7 minutes ago       Up 7 minutes        5432/tcp            sample-postgres.1.udxpblc1oqg703w5avfnu1yfp
+
+---3. Create the drupal service as the frontend layer.
+-----------------------------------------------------------------------------------------
+docker@node1:~$ docker service create --name sample-drupal --network drupal-nw -p 8086:80 drupal
+
+docker@node1:~$ docker service ps sample-drupal
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS
+sue8f2r12rhq        sample-drupal.1     drupal:latest       node1               Running             Running 4 minutes ago
+
+docker@node2:~$ docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
+l3iektttpet5        sample-drupal       replicated          1/1                 drupal:latest       *:8086->80/tcp
+twfwhmf6uynp        sample-postgres     replicated          1/1                 postgres:latest
+
+---4.  Access the drupal site using any of the node ip address.,
+
+(base) ➜  ~ docker-machine ls
+NAME    ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER      ERRORS
+node1   -        virtualbox   Running   tcp://192.168.99.100:2376           v19.03.12
+node2   -        virtualbox   Running   tcp://192.168.99.101:2376           v19.03.12
+node3   -        virtualbox   Running   tcp://192.168.99.102:2376           v19.03.12
+
+use the postgres service for db connectivity between the drupal and db., 
+DB Name/ Username/ Password/ Hostname -- postegres / postgres / murugan123, sample-drupal
+
+---5. Access the site using any ip of three nodes in the swarm,
+http://192.168.99.102:8086/
+http://192.168.99.101:8086/
+http://192.168.99.100:8086/
 

@@ -30,6 +30,7 @@ docker container rm -f sample-alp-service.5.v7lx9ydtepd4yjxo8boza1krk
 
 docker service ps sample-alp-service
 
+docker service ps $(docker service ls -q)
 -----------------------------------------------------------------------------------------
 DOCKER MACHINE COMMANDS - MULTIPLE NODES IN MULTIPLE VMS
 -----------------------------------------------------------------------------------------
@@ -59,7 +60,7 @@ docker swarm join-token manager
 
 ---node2
 docker swarm join --token SWMTKN-1-1jtlheio9iyadw3hwi4k9auu7vsxuveaow6j63sfp47hexz8dd-64zvwhneqn0z78wyrszxoorf0 192.168.99.100:2377
---node2 will become a worker node in the above swarm.
+---node2 will become a worker node in the above swarm.
 
 docker node ls
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
@@ -76,10 +77,10 @@ js0mxkiehrpo9lpbe39ti24r5     node2               Ready               Active    
 
 ---node1
 docker swarm join-token manager
---To join the node3 as master node directly, get the new token
+---To join the node3 as master node directly, get the new token
  docker swarm join --token SWMTKN-1-1jtlheio9iyadw3hwi4k9auu7vsxuveaow6j63sfp47hexz8dd-21djwi4w8232nhil91fpbid5l 192.168.99.100:2377
 
---node3
+---node3
 docker swarm join --token SWMTKN-1-1jtlheio9iyadw3hwi4k9auu7vsxuveaow6j63sfp47hexz8dd-21djwi4w8232nhil91fpbid5l 192.168.99.100:2377
 
 docker node ls
@@ -206,6 +207,39 @@ curl 192.168.99.102:9200
 curl localhost:9200
 curl 127.0.0.1:9200
 
+-----------------------------------------------------------------------------------------
+DOCKER SWARM - VOTING APP EXAMPLE
+-----------------------------------------------------------------------------------------
+---1. Create two networks - for backend and frontend services of the app.
+-----------------------------------------------------------------------------------------
+docker network create --driver overlay voting-backend-nw
+docker network create --driver overlay voting-frontend-nw
 
+---2. Create all the 5 services as per the requirement
+-----------------------------------------------------------------------------------------
+docker service create --name vote -p 80:80 --network voting-frontend-nw --replicas 2 bretfisher/examplevotingapp_vote:before
 
+docker service create --name redis --network voting-frontend-nw --replicas 2 redis:3.2
 
+docker service create --name worker --network voting-frontend-nw --network voting-backend-nw bretfisher/examplevotingapp_worker:java
+
+docker service create --name postdb --network voting-backend-nw \
+          --mount type=volume,source=voting-db-data,target=/var/lib/postgresql/data postgres:9.4
+
+docker service create --name result -p 5001:80 --network voting-backend-nw bretfisher/examplevotingapp_result:before
+
+---3. Using the original docker images instead of the bretfisher image
+-----------------------------------------------------------------------------------------
+docker service create --name vote -p 80:80 --network voting-frontend-nw --replicas 2 docker/example-voting-app-vote
+
+docker service create --name redis --network voting-frontend-nw --replicas 2 redis
+
+docker service create --name worker --network voting-frontend-nw --network voting-backend-nw docker/example-voting-app-worker
+
+docker service create --name postdb --network voting-backend-nw --mount type=volume,source=voting-db-data,target=/var/lib/postgresql/data postgres:9.6
+
+docker service create --name result -p 5001:80 --network voting-backend-nw docker/example-voting-app-result
+
+docker service create --name postdb --network voting-backend-nw  -e POSTGRES_HOST_AUTH_METHOD=trust --mount type=volume,source=db-data,target=/var/lib/postgresql/data postgres:9.4
+
+-----------------------------------------------------------------------------------------

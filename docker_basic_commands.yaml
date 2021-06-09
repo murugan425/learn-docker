@@ -73,6 +73,9 @@ docker container port webhost
 
 docker container inspect webhost --format '{{.NetworkSettings.IPAddress}}'
 
+docker container ls -a --filter "status=exited"
+
+docker container rm $(docker container ls -aq --filter "status=exited")
 -----------------------------------------------------------------------------------------
 DOCKER CONTAINER INTERACTIVE COMMANDS 
 -----------------------------------------------------------------------------------------

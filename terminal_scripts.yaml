@@ -21,7 +21,8 @@ apt-get install build-essential procps curl file git
 alias cls='printf "\033c"'
 
 -----------------------------------------------------------------------------------------
-ACCESS the registry to get the 
+ACCESS the registry to get the required account info, 
+-----------------------------------------------------------------------------------------
 TOKEN=$(curl "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | grep -r .token)
 
 TOKEN=$(curl --user 'username:password' "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | grep -r .token)

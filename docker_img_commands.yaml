@@ -24,7 +24,7 @@ docker image tag nginx:alpine murugan425/nginx:version1
 
 docker image prune
 docker image prune -a
---- cleanup dangling images
+---cleanup dangling images
 
 docker system prune
 ---clean all images

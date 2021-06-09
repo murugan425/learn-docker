@@ -185,3 +185,27 @@ http://192.168.99.102:8086/
 http://192.168.99.101:8086/
 http://192.168.99.100:8086/
 
+--6. Replicate the web layer in multiple node and check the logs to see it in action.
+docker service update sample-drupal--replicas 2
+
+-----------------------------------------------------------------------------------------
+DOCKER MACHINE COMMANDS - SIMPLE EXAMPLE Using elasticsearch
+-----------------------------------------------------------------------------------------
+docker service create --name elssearch3 --replicas 3 -p 9200:9200 elasticsearch:2
+
+docker service inspect elssearch3
+
+---Use the IP to access the elasticsearch from the host.
+
+curl 192.168.99.100:9200
+curl 192.168.99.101:9200
+curl 192.168.99.102:9200
+
+---Use the localhost, if the search is done inside the nodes.
+
+curl localhost:9200
+curl 127.0.0.1:9200
+
+
+
+

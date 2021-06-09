@@ -138,7 +138,7 @@ docker@node3:~$ docker service ps sample-alp-service
 Error response from daemon- rpc error- code = Unknown desc = The swarm does not have a leader. It's possible that too few managers are online. Make sure more than half of the managers are online.
 
 -----------------------------------------------------------------------------------------
-DOCKER MACHINE COMMANDS - EXAMPLE [DRUPAL - FrontEnd, POSTGRES - BackEnd, Private Network
+DOCKER SERVICE COMMANDS - EXAMPLE [DRUPAL - FrontEnd, POSTGRES - BackEnd, Private Network
 -----------------------------------------------------------------------------------------
 
 ---1. Create a private network that needs to be used for this application.
@@ -208,7 +208,7 @@ curl localhost:9200
 curl 127.0.0.1:9200
 
 -----------------------------------------------------------------------------------------
-DOCKER SWARM - VOTING APP EXAMPLE
+DOCKER SERVICE - VOTING APP EXAMPLE
 -----------------------------------------------------------------------------------------
 ---1. Create two networks - for backend and frontend services of the app.
 -----------------------------------------------------------------------------------------
@@ -243,3 +243,8 @@ docker service create --name result -p 5001:80 --network voting-backend-nw docke
 docker service create --name postdb --network voting-backend-nw  -e POSTGRES_HOST_AUTH_METHOD=trust --mount type=volume,source=db-data,target=/var/lib/postgresql/data postgres:9.4
 
 -----------------------------------------------------------------------------------------
+DOCKER SERVICE COMMANDS - TO CREATE THE FAILED SERVICES WHILE STACK DEPLOY OF VOTEAPP 
+-----------------------------------------------------------------------------------------
+docker service create --name voteapp_worker --network voteapp_voting_frontend_nw --network voteapp_voting_backend_nw bretfisher/examplevotingapp_worker:java
+
+docker service create --name voteapp_vote_3 -p 5000:80 --network voteapp_voting_frontend_nw docker/example-voting-app-vote

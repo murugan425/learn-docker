@@ -31,6 +31,8 @@ docker container rm -f sample-alp-service.5.v7lx9ydtepd4yjxo8boza1krk
 docker service ps sample-alp-service
 
 docker service ps $(docker service ls -q)
+
+docker service rm $(docker stack services -q <servicename>)
 -----------------------------------------------------------------------------------------
 DOCKER MACHINE COMMANDS - MULTIPLE NODES IN MULTIPLE VMS
 -----------------------------------------------------------------------------------------

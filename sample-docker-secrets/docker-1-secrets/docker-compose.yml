@@ -1,0 +1,23 @@
+version: "3.1"
+
+#docker service create --name sample-postgres -p 5432:5432 --secret pssql_usr --secret pssql_pswd_2 \
+#-e POSTGRES_PASSWORD_FILE=/run/secrets/pssql_pswd_2 -e POSTGRES_USER_FILE=/run/secrets/pssql_usr postgres
+
+services: 
+    postdb:
+        image: postgres
+        ports:
+            - 5001:5432
+        secrets:
+            - pssql_usr
+            - pssql_pswd_1
+        environment:
+            POSTGRES_PASSWORD_FILE: /run/secrets/pssql_pswd_1
+            POSTGRES_USER_FILE: /run/secrets/pssql_usr
+
+secrets:
+    pssql_usr:
+        file: ./pssql_user.txt
+    pssql_pswd_1:
+        file: ./pssql_pswd.txt
+

@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  drupal:
+    image: murugan425/sampledrupal
+    build: .
+    ports:
+      - "80:80"
+
+  postgres:
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/psql-testpw
+    secrets:
+      - psql-testpw
+    volumes:
+      - ./sample-data:/var/lib/postgresql/data
+
+secrets:
+  psql-testpw:
+    file: pssql_test_pswd.txt

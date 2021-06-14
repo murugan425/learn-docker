@@ -1,0 +1,31 @@
+secrets:
+  psql_prodpw:
+    external: true
+    name: psql_prodpw
+services:
+  drupal:
+    image: murugan425/sampledrupal:latest
+    ports:
+    - published: 80
+      target: 80
+    volumes:
+    - drupal-modules:/var/www/html/modules:rw
+    - drupal-profiles:/var/www/html/profiles:rw
+    - drupal-sites:/var/www/html/sites:rw
+    - drupal-themes:/var/www/html/themes:rw
+  postgres:
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/psql_prodpw
+    image: postgres:13
+    secrets:
+    - source: psql-prodpw
+    volumes:
+    - drupal-data:/var/lib/postgresql/data:rw
+version: '3.1'
+volumes:
+  drupal-data: {}
+  drupal-modules: {}
+  drupal-profiles: {}
+  drupal-sites: {}
+  drupal-themes: {}
+

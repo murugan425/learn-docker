@@ -76,6 +76,10 @@ docker container inspect webhost --format '{{.NetworkSettings.IPAddress}}'
 docker container ls -a --filter "status=exited"
 
 docker container rm $(docker container ls -aq --filter "status=exited")
+
+docker container ls --filter status="exited" --filter name=^/sample-nginx-3 -q
+
+docker container rm $(docker container ls --filter status=exited --filter name=^/sample-nginx-3 -q)
 -----------------------------------------------------------------------------------------
 DOCKER CONTAINER INTERACTIVE COMMANDS 
 -----------------------------------------------------------------------------------------
@@ -97,3 +101,26 @@ docker container exec -it cent bash
 docker container exec -it ubuntu bash
 
 docker container exec -it mysqldb bash
+
+-----------------------------------------------------------------------------------------
+DOCKER CONTAINER HEALTHCHECK COMMANDS 
+-----------------------------------------------------------------------------------------
+---WITHOUT HEALTHCHECK
+docker container run -d --name sample-postgres -e POSTGRES_USER=murugan -e POSTGRES_PASSWORD=murugan123 postgres:13
+
+(base) ➜  learn-docker git:(develop) ✗ docker container ls
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS          PORTS      NAMES
+d358afc44dc2   postgres:13   "docker-entrypoint.s…"   17 seconds ago   Up 17 seconds   5432/tcp   sample-postgres
+
+---WITH HEALTHCHECK
+docker container run -d --name sample-postgres -e POSTGRES_USER=murugan -e POSTGRES_PASSWORD=murugan123 --health-cmd="pg_isready -U murugan || exit 1"  postgres:13
+
+---first 30 seconds
+CONTAINER ID   IMAGE         COMMAND                  CREATED          STATUS                             PORTS      NAMES
+b0a91d20a132   postgres:13   "docker-entrypoint.s…"   30 seconds ago   Up 29 seconds (health':' starting)   5432/tcp   sample-postgres
+
+---post 30 seconds after startup health check is done, default interval time is 30 sec.
+(base) ➜  learn-docker git:(develop) ✗ docker container ls
+CONTAINER ID   IMAGE         COMMAND                  CREATED              STATUS                        PORTS      NAMES
+b0a91d20a132   postgres:13   "docker-entrypoint.s…"   About a minute ago   Up About a minute (healthy)   5432/tcp   sample-postgres
+

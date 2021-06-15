@@ -1,0 +1,24 @@
+-----------------------------------------------------------------------------------------
+DOCKER CONTAINER - PRIVATE REGISTRY CREATION
+-----------------------------------------------------------------------------------------
+
+docker container run -d -p 5000:5000 --name registry registry:2
+
+http://localhost:5000/v2/_catalog
+
+{"repositories":[]}
+
+docker tag hello-world 127.0.0.1:5000/hello-world
+
+docker image push 127.0.0.1:5000/hello-world
+
+docker image tag nginx 127.0.0.1:5000/nginx
+
+docker image push 127.0.0.1:5000/nginx
+
+http://localhost:5000/v2/_catalog
+
+{"repositories":["hello-world","nginx"]}
+
+docker service create --name sample-nginx-3 -p 8088:80 --replicas 2 127.0.0.1:5000/nginx
+

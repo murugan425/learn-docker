@@ -1,9 +1,20 @@
+
+-----------------------------------------------------------------------------------------
+MAC COMMANDS
+-----------------------------------------------------------------------------------------
 ps aux | grep
 
 ls -a
 
 ls -al
 
+ipconfig getifaddr en0
+
+ifconfig -en0
+
+-----------------------------------------------------------------------------------------
+LINUX COMMANDS
+-----------------------------------------------------------------------------------------
 apt-get update 
 
 apt-get install curl 
@@ -11,8 +22,6 @@ apt-get install curl
 apt-get install -y procps <if 'ps aux' doesn't runs>
 
 yum update curl
-
-ifconfig -en0
 
 apt-get install build-essential procps curl file git
 
@@ -32,3 +41,4 @@ curl --head -H "Authorization:<SPACE>Bearer $TOKEN" https://registry-1.docker.io
 TOKEN=$(curl --user 'murugan425:jayasri425' "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
 
 curl --user 'murugan425:ee4e3e9d-73c7-4381-b330-4654b7d7f237' "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | grep -r .token
+

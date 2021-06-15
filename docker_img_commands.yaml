@@ -65,4 +65,16 @@ docker container run -p 8083:3000 --name sample-node-1 sampleimg3
 
 curl localhost:8083
 -----------------------------------------------------------------------------------------
+DOCKER IMAGE BUILD - DEPLOYING A ANGULAR APP TO HUB
+-----------------------------------------------------------------------------------------
+
+docker image build -t shopapp .
+
+docker image tag shopapp murugan425/shopapp
+
+docker image push murugan425/shopapp
+
+docker container run -p 8081:80 -d --name shopping-app shopapp
+
+curl localhost:8081
 

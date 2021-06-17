@@ -12,6 +12,9 @@ ipconfig getifaddr en0
 
 ifconfig -en0
 
+chsh -s /usr/local/bin/bash
+
+chsh -s /bin/zsh
 -----------------------------------------------------------------------------------------
 LINUX COMMANDS
 -----------------------------------------------------------------------------------------
@@ -28,6 +31,13 @@ apt-get install build-essential procps curl file git
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 alias cls='printf "\033c"'
+
+-----------------------------------------------------------------------------------------
+USEFUL IMAGES
+-----------------------------------------------------------------------------------------
+docker pull nicolaka/netshoot
+
+docker pull bretfisher/httpenv
 
 -----------------------------------------------------------------------------------------
 ACCESS the registry to get the required account info, 

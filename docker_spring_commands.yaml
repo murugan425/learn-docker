@@ -1,0 +1,42 @@
+-----------------------------------------------------------------------------------------
+DOCKER COMMANDS - BUILD IMAGE Of A SPRING BOOT - MVN APPLICATION
+-----------------------------------------------------------------------------------------
+
+---Paketo Buildpacks
+./mvnw spring-boot:build-image
+
+-----------------------------------------------------------------------------------------
+[INFO] Building jar /Users/murugan/Repository/mts-suite/mts-inventory-ms/target/mts-inventory-ms-0.0.1-SNAPSHOT.jar
+
+[INFO] Building image 'docker.io/library/mts-inventory-ms:0.0.1-SNAPSHOT'
+
+[INFO]     [creator]     ===> EXPORTING
+[INFO]     [creator]     Adding layer 'paketo-buildpacks/ca-certificates:helper'
+[INFO]     [creator]     Adding layer 'paketo-buildpacks/bellsoft-liberica:helper'
+[INFO]     [creator]     Adding layer 'paketo-buildpacks/bellsoft-liberica:java-security-properties'
+[INFO]     [creator]     Adding layer 'paketo-buildpacks/bellsoft-liberica:jre'
+[INFO]     [creator]     Adding layer 'paketo-buildpacks/bellsoft-liberica:jvmkill'
+[INFO]     [creator]     Adding layer 'paketo-buildpacks/executable-jar:classpath'
+[INFO]     [creator]     Adding layer 'paketo-buildpacks/spring-boot:helper'
+[INFO]     [creator]     Adding layer 'paketo-buildpacks/spring-boot:spring-cloud-bindings'
+[INFO]     [creator]     Adding layer 'paketo-buildpacks/spring-boot:web-application-type'
+[INFO]     [creator]     Adding 1/1 app layer(s)
+[INFO]     [creator]     Adding layer 'launcher'
+[INFO]     [creator]     Adding layer 'config'
+[INFO]     [creator]     Adding label 'io.buildpacks.lifecycle.metadata'
+[INFO]     [creator]     Adding label 'io.buildpacks.build.metadata'
+[INFO]     [creator]     Adding label 'io.buildpacks.project.metadata'
+[INFO]     [creator]     Adding label 'org.opencontainers.image.title'
+[INFO]     [creator]     Adding label 'org.opencontainers.image.version'
+[INFO]     [creator]     Adding label 'org.springframework.boot.version'
+[INFO]     [creator]     Saving docker.io/library/mts-inventory-ms:0.0.1-SNAPSHOT...
+-----------------------------------------------------------------------------------------
+
+docker container run --publish 8888:8002  mts-inventory-ms:0.0.1-SNAPSHOT
+
+docker image tag mts-inventory-ms:0.0.1-SNAPSHOT murugan425/mts-inventory:latest
+
+docker image push murugan425/mts-inventory:latest
+
+---To view the application image layers
+java -Djarmode=layertools -jar mts-inventory-ms:0.0.1-SNAPSHOT.jar list

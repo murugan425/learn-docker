@@ -53,3 +53,29 @@ TOKEN=$(curl --user 'murugan425:jayasri425' "https://auth.docker.io/token?servic
 
 curl --user 'murugan425:ee4e3e9d-73c7-4381-b330-4654b7d7f237' "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | grep -r .token
 
+-----------------------------------------------------------------------------------------
+DOCKER LOCALHOST PORTS
+-----------------------------------------------------------------------------------------
+SPRING      > 8001 - 8100
+NODE        > 8101 - 8200
+PYTHON      > 8201 - 8300
+
+CICD        > 7100 - 7200
+  JENKINS  - 7100
+  CIRCLECI - 
+  TRAVIS   - 
+
+DATABASE    > 5000 - 5100
+
+-----------------------------------------------------------------------------------------
+JDK - Quick Installation in MAC
+-----------------------------------------------------------------------------------------
+Download the Tar file - openjdk-15_osx-x64_bin.tar
+
+---Execute the below commands in terminal
+sudo mv openjdk-15_osx-x64_bin.tar /Library/Java/JavaVirtualMachines/
+cd /Library/Java/JavaVirtualMachines/
+sudo tar -xzf openjdk-15_osx-x64_bin.tar
+sudo rm openjdk-15_osx-x64_bin.tar
+
+-----------------------------------------------------------------------------------------

@@ -1,0 +1,61 @@
+-----------------------------------------------------------------------------------------
+DOCKER - JENKING SETUP COMMANDS 
+-----------------------------------------------------------------------------------------
+docker network create mts_jenkins
+
+docker run --name mts_jenkins --network mts_jenkins -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts
+-----------------------------------------------------------------------------------------
+docker run \
+  --name jenkins-docker \
+  --rm \
+  --detach \
+  --privileged \
+  --network jenkins \
+  --network-alias docker \
+  --env DOCKER_TLS_CERTDIR=/certs \
+  --volume jenkins-docker-certs:/certs/client \
+  --volume jenkins-data:/var/jenkins_home \
+  --publish 2376:2376 \
+  docker:dind \
+  --storage-driver overlay2
+
+docker run --name jenkins-docker --rm --detach \
+  --privileged --network jenkins --network-alias docker \
+  --env DOCKER_TLS_CERTDIR=/certs \
+  --volume jenkins-docker-certs:/certs/client \
+  --volume jenkins-data:/var/jenkins_home \
+  --publish 2376:2376 docker:dind --storage-driver overlay2
+-----------------------------------------------------------------------------------------
+docker build -t jenkins-megham:1.1 .
+
+docker run \
+  --name jenkins-megham \
+  --rm \
+  --detach \
+  --network jenkins \
+  --env DOCKER_HOST=tcp://docker:2376 \
+  --env DOCKER_CERT_PATH=/certs/client \
+  --env DOCKER_TLS_VERIFY=1 \
+  --publish 7100:8080 \
+  --publish 50000:50000 \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume jenkins-docker-certs:/certs/client:ro \
+  jenkins-megham:1.1
+
+docker run --name jenkins-megham --rm --detach \
+  --network jenkins --env DOCKER_HOST=tcp://docker:2376 \
+  --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 \
+  --publish 8080:8080 --publish 50000:50000 \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume jenkins-docker-certs:/certs/client:ro \
+  jenkins-megham:1.1
+-----------------------------------------------------------------------------------------
+---For login password
+cat /var/jenkins_home/secrets/initialAdminPassword
+
+---Login to jenkins using the above pswd @
+http://localhost:7100
+murugan425/teju123
+
+
+

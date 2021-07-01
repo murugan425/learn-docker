@@ -10,6 +10,8 @@ kubectl run sample-nginx --image nginx
 
 kubectl delete pod sample-nginx
 
+kubectl delete deployments.apps sample-nginx
+
 kubectl create deployment sample-nginx --image nginx
 
 kubectl create deployment sample-http --image httpd
@@ -49,7 +51,7 @@ curl 10.111.198.197:8888
 
 curl 10.96.0.1:8888
 
----NODEPORT IP [Range: 30000 - 32767]
+---NODEPORT IP [Range>>> 30000 - 32767]
 
 kubectl expose deployment http-env --port 8888 --name http-env-ci
 
@@ -81,5 +83,25 @@ deployment.apps/http-env       3/3     3            3           14m
 NAME                                     DESIRED   CURRENT   READY   AGE
 replicaset.apps/http-env-795cf6d4b5      3         3         3       14m
 -----------------------------------------------------------------------------------------
+KUBE GENERATORS
+-----------------------------------------------------------------------------------------
+kubectl create deployment sample-nginx --image nginx --dry-run=none -o yaml
 
+kubectl create job sample-nginx --image nginx --dry-run=none -o yaml
 
+kubectl expose deployment sample-nginx --port 8888 --dry-run=none -o yaml
+
+-----------------------------------------------------------------------------------------
+KUBE YAML - APPLY COMMANDS
+-----------------------------------------------------------------------------------------
+kubectl api-resources
+
+kubectl explain services --recursive
+
+kubectl apply -f k8s-sample-pod.yaml --dry-run=server
+
+kubectl apply -f k8s-sample-pod.yaml --dry-run=client
+
+kubectl apply -f k8s-sample-deployment.yaml --dry-run=client
+
+kubectl diff -f k8s-sample-deployment.yaml

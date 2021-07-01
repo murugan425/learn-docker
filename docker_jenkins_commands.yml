@@ -55,7 +55,7 @@ cat /var/jenkins_home/secrets/initialAdminPassword
 
 ---Login to jenkins using the above pswd @
 http://localhost:7100
-murugan425/teju123
+murugan425/teju425
 
 
 

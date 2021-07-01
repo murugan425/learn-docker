@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mgm-nginx
+spec:
+  containers:
+  - name: mgm-nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80

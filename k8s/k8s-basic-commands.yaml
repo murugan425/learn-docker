@@ -61,10 +61,11 @@ kubectl expose deployment http-env --port 8888 --name http-env-np --type NodePor
 kubectl expose deployment http-env --port 8888 --name http-env-lb --type LoadBalancer
 
 ---Accessing the namespace content using kube-proxy for dev purpose
-kubectl proxy --port=8080
+kubectl proxy --port=8080 -d 
 
-http://localhost:8080/api/v1/proxy/namespaces/<NAMESPACE>/services/<SERVICE-NAME>:<PORT-NAME>/
+http://localhost:8080/api/v1/namespaces/<NAMESPACE>/services/<SERVICE-NAME>:<PORT-NAME>/
 
+http://localhost:8080/api/v1/namespaces/default/services/
 -----------------------------------------------------------------------------------------
 (base) ➜  ~ kubectl get all
 NAME                               READY   STATUS    RESTARTS   AGE

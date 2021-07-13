@@ -1,0 +1,6 @@
+docker run -p 8080:8080 -d --name megam-keyauth -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:14.0.0
+--Failed in Docker Desktop
+
+docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> jboss/keycloak
+
+docker run -d -p 8300:8080 -e KEYCLOAK_USER=megam -e KEYCLOAK_PASSWORD=murugan -v $(pwd):/tmp --name megam-kc jboss/keycloak

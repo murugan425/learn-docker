@@ -61,14 +61,19 @@ NODE        > 8101 - 8200
 PYTHON      > 8201 - 8300
 
 CICD        > 7100 - 7200
-  JENKINS  - 7100
-  CIRCLECI - 
-  TRAVIS   - 
+  JENKINS  - 7110
+  CIRCLECI - 7120
+  TRAVIS   - 7130
+
+
 
 DATABASE    > 5000 - 5100
 
 KEYCLOAK    > 8300
 
+SONARQUBE   > 9300
+
+NEXUS       > 9400
 
 -----------------------------------------------------------------------------------------
 JDK - Quick Installation in MAC

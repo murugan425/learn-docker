@@ -1,0 +1,32 @@
+Realm: 
+  MEGAM
+  Megam KeyCloak Auth
+  Megam KeyCloak Auth
+
+Client1: 
+  megam-auth
+  Megam Authentication
+  Used for request authentication of megam auth spring based backend application.
+Client2:
+  megam-cli
+  Megam Client
+  Used to get the access token by angular based UI applications. 
+
+Realm level Roles:
+  Role1: 
+    megam-admin
+    User role for megam administration access.
+  Role2:
+    megam-developer
+    User role for megam developers.
+  Role3:
+    megam-guest
+    User role for all guest users requiring general access to megam applications.
+
+Client level Roles:
+  Role1: 
+    mgm-auth-admin
+    User role for megam administration access.
+  Role2:
+    mgm-auth-user
+    User role for megam authorized users.

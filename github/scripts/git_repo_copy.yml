@@ -1,0 +1,80 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "waiting for the following arguments: username + max-page-number"
+    exit 1
+else
+    name=$1
+fi
+
+if [ -z "$2" ]; then 
+    max=2
+else
+    max=$2
+fi
+
+cntx="users"
+page=1
+
+echo $name
+echo $max
+echo $cntx
+echo $page
+
+until (( $page -lt $max ))
+do 
+    curl "https://api.github.com/$cntx/$name/repos?page=$page&per_page=100" | grep -e 'git_url*' | cut -d \" -f 4 | xargs -L1 git clone
+    $page=$page+1
+done
+
+exit 0
+-----------------------------------------------------------------------------------------
+curl "https://api.github.com/users/murugan425/repos?per_page=1000" | grep -o 'git@[^"]*' | cut -d \" -f 4 | xargs -L1
+
+curl "https://api.github.com/orgs/meghamsuite/repos?per_page=1000" | grep -o 'git@[^"]*' | cut -d \" -f 4 | xargs -L1
+
+curl "https://api.github.com/orgs/meghamsuite/repos?access_token=$GITHUB_API_TOKEN&per_page=1000" | grep -o 'git@[^"]*' | cut -d \" -f 4 | xargs -L1
+
+curl "https://api.github.com/orgs/mtssuite/repos?access_token=$GITHUB_API_TOKEN&per_page=1000" 
+
+curl "https://api.github.com/orgs/mtssuite/repos?per_page=1000"
+
+curl "https://api.github.com/orgs/meghamsuite/repos?per_page=1000"
+
+curl "https://api.github.com/orgs/meghamsuite/repos?access_token=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&per_page=1000"  | grep -o 'git@[^"]*' | cut -d \" -f 4 | xargs -L1 git clone
+
+
+curl -s "https://api.github.com/orgs/meghamsuite/repos?access_token=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&per_page=1000"| jq -r ".[].html_url" | xargs -L1 git clone
+
+-----------------------------------------------------------------------------------------
+--- Generat SSH Key
+
+ssh-keygen -t ed25519 -C "murugan425@gmail.com"
+
+tamil425
+
+(base) ➜  scripts git:(develop) ✗ ssh-keygen -t ed25519 -C "murugan425@gmail.com"
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (/Users/murugan/.ssh/id_ed25519)- git_ssh_id_ed25519
+Enter passphrase (empty for no passphrase)
+Enter same passphrase again-
+Your identification has been saved in git_ssh_id_ed25519.
+Your public key has been saved in git_ssh_id_ed25519.pub.
+The key fingerprint is-
+SHA256:x5BG5qPkkLpoJrBtBt3y2osxwM97XWkWENw2nsJnPAQ murugan425@gmail.com
+The key's randomart image is
++--[ED25519 256]--+
+|      .E*        |
+|     . * *       |
+|    o o % o      |
+|.. o + = %       |
+|+.+ . o S *      |
+|.*o+     *       |
+|+oBo. . +        |
+|+o *.. .         |
+|  o.+.           |
++----[SHA256]-----+
+
+-----------------------------------------------------------------------------------------
+touch ~/.ssh/config
+

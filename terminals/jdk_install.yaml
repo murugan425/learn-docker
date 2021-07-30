@@ -1,0 +1,12 @@
+-----------------------------------------------------------------------------------------
+JDK - Quick Installation in MAC
+-----------------------------------------------------------------------------------------
+Download the Tar file - openjdk-15_osx-x64_bin.tar
+
+---Execute the below commands in terminal
+sudo mv openjdk-15_osx-x64_bin.tar /Library/Java/JavaVirtualMachines/
+cd /Library/Java/JavaVirtualMachines/
+sudo tar -xzf openjdk-15_osx-x64_bin.tar
+sudo rm openjdk-15_osx-x64_bin.tar
+
+-----------------------------------------------------------------------------------------

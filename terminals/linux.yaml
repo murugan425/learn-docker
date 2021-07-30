@@ -1,0 +1,18 @@
+-----------------------------------------------------------------------------------------
+LINUX COMMANDS
+-----------------------------------------------------------------------------------------
+apt-get update 
+
+apt-get install curl 
+
+apt-get install -y procps <if 'ps aux' doesn't runs>
+
+yum update curl
+
+apt-get install build-essential procps curl file git
+
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+alias cls='printf "\033c"'
+
+cat /etc/os-release

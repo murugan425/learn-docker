@@ -1,0 +1,39 @@
+-----------------------------------------------------------------------------------------
+MAC COMMANDS
+-----------------------------------------------------------------------------------------
+ps aux | grep
+
+ls -a
+
+ls -al
+
+ipconfig getifaddr en0
+
+ifconfig -en0
+
+chsh -s /usr/local/bin/bash
+
+chsh -s /bin/zsh
+
+-----------------------------------------------------------------------------------------
+TERMINAL Shortcuts
+-----------------------------------------------------------------------------------------
+Text Command Line Bash Shortcuts
+These come from the bash terminal on Linux machines here...
+
+control + C = Close processing
+control + L = cLear screen
+control + A = Go to Beginning of line (as in A to Z)
+control + E = Go to End of line (hit E using longest finger)
+control + F = Forward cursor
+control + B = Backward
+control + H = Backspace left of cursor
+control + D = Delete right of cursor
+control + K = Kill line from under the cursor to the end of the line.
+control + U = "U get out of here" - Clear entire line
+control + P = Previous line
+control + N = Next line
+control + Y = Retrieve line
+control + ` = cycle through session windows
+control + left = previous session
+control + right = previous session

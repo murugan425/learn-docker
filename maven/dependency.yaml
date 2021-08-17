@@ -1,0 +1,21 @@
+-----------------------------------------------------------------------------------------
+MAVEN Dependency Commands
+-----------------------------------------------------------------------------------------
+mvn dependency:analyze-report 
+
+mvn dependency:list 
+
+mvn dependency:tree
+
+mvn dependency:tree -Dincludes=org.keycloak:keycloak-spring-boot-starter
+
+mvn dependency:tree -Dincludes=org.springframework.boot:\*
+
+mvn dependency:tree -Dexcludes=org.springframework.boot:\*
+
+mvn dependency:tree -Dexcludes=org.springframework.boot:\* -DoutputFile=`pwd`/mvn_dependency_tree.txt -DappendOutput=true
+
+-DskipTests=true
+
+mvn depgraph:aggregate -Dincludes=net.atpco.* -DoutputFileName=common_aggregate.dot
+

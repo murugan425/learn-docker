@@ -1,0 +1,34 @@
+---
+#-----------------------------------------------------------------------------------------
+#DOCKER COMPOSE - To build & host a wordpress content mgmt server with a mysql db.
+#-----------------------------------------------------------------------------------------
+version: "3.1"
+
+services:
+  nxtwpweb:
+    image: wordpress
+    restart: always
+    ports:
+      - 3000:80
+    environment:
+      WORDPRESS_DB_HOST: nxtwpdb
+      WORDPRESS_DB_USER: nxtadmin
+      WORDPRESS_DB_PASSWORD: nxtwpdb@admin
+      WORDPRESS_DB_NAME: nxtwpdb
+    volumes:
+      - nxtwpweb:/var/www/html
+
+  nxtwpdb:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: nxtwpdb
+      MYSQL_USER: nxtadmin
+      MYSQL_PASSWORD: nxtwpdb@admin
+      MYSQL_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - nxtwpdb:/var/lib/mysql
+
+volumes:
+  nxtwpweb:
+  nxtwpdb:

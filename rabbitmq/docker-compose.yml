@@ -1,0 +1,25 @@
+---
+#-----------------------------------------------------------------------------------------
+#DOCKER COMPOSE - To boot the rabbitmq
+#-----------------------------------------------------------------------------------------
+version: "3.2"
+services:
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    container_name: "rabbitmq"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - mqdata:/var/lib/rabbitmq/
+      - mqlog:/var/log/rabbitmq
+    networks:
+      - mqnetwork
+
+networks:
+  mqnetwork:
+    driver: bridge
+
+volumes:
+  mqdata:
+  mqlog:

@@ -1,0 +1,26 @@
+---
+#-----------------------------------------------------------------------------------------
+#DOCKER COMPOSE - To boot the redis database
+#-----------------------------------------------------------------------------------------
+version: "2"
+
+services:
+  redis:
+    image: bitnami/redis:6.2
+    container_name: "redis"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - "6379:6379"
+    volumes:
+      - dbdata:/bitnami/redis/data
+    networks:
+      - dbnetwork
+
+networks:
+  dbnetwork:
+    driver: bridge
+
+volumes:
+  dbdata:

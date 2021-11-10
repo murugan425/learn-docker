@@ -154,3 +154,12 @@ docker_img
 # Docker
 ######################
 *.jekyll-cache/
+
+######################
+# Terraform
+######################
+*.terraform/
+*.lock.info
+*.lock.hcl
+*.tfstate*
+*.access.tf

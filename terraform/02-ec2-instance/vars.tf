@@ -1,5 +1,5 @@
 variable NXT_EC2_INST_NAME {
-  default = "nxt_test_ec2"
+  default = "nxt_test_ec2_02"
 }
 
 variable AWS_REGION {

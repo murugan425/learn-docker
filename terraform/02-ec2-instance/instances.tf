@@ -1,4 +1,4 @@
-resource "aws_instance" "nxt_ec2_01" {
+resource "aws_instance" "nxt_ec2_02" {
   ami = lookup(var.AMI_IDS, var.AWS_REGION)
   instance_type = "t2.micro"
   tags = {

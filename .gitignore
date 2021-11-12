@@ -165,3 +165,4 @@ docker_img
 *.access.tf
 create_plan*
 destroy_plan*
+*aws-ssh-key*

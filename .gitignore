@@ -163,3 +163,5 @@ docker_img
 *.lock.hcl
 *.tfstate*
 *.access.tf
+create_plan*
+destroy_plan*

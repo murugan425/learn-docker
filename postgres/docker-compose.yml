@@ -1,13 +1,15 @@
-version: "3.8"
+version: "3.9"
 
 services:
   db:
     container_name: pg_container
+    shm_size: 128mb
+    restart: always
     image: postgres
     environment:
       POSTGRES_USER: murugan
-      POSTGRES_PASSWORD: local
-      POSTGRES_DB: pg_localdb
+      POSTGRES_PASSWORD: smat_pswd
+      POSTGRES_DB: local_db
     ports:
       - "5432:5432"
     volumes:
